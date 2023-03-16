@@ -3,7 +3,7 @@
 # Python 3.10.9
 #
 
-import sys
+import portela
 
 #
 # Sequencia Fibinacci
@@ -28,7 +28,7 @@ def fib(n):
     return None if n < 0 else fib(n -1) + fib(n -2) if n > 1 else n
 
 if __name__ == "__main__":
-    cabecalho()
+    portela.cabecalho()
     # Testando com uma sequencia que
     # comeca em -15, passando por 0 (zero)
     # e chegando a 15.
