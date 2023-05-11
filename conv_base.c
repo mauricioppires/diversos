@@ -455,7 +455,7 @@ int main() {
             scanf("%s", binario);
             char *octal = binToOctal(binario);
             printf("OCT: %s\n", octal);
-            free(octal); // Libera a memoria alocada para a string octal
+            free(octal);
         } else {
             printf("Combinacao invalida!\n");
         }
