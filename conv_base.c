@@ -23,7 +23,7 @@
             Nesse caso, temos:
 
                 n = 4 (bases numericas)
-                r = 2 (grupo de 2 bases) ex.: BIN TO DEC, DEC TO HEX ...
+                r = 2 (grupo com 2 bases) ex.: BIN TO DEC, DEC TO HEX ...
 
             Aplicando na formula de permutacao, temos:
 
@@ -54,9 +54,9 @@
 
     Compilar: 
 
-        gcc -o conversao conversao.c
+        gcc -o conv_base conv_base.c
 
-    Mauricio Portela Pires <mauricioportelapires at gmail dot com>
+    Mauricio P Pires <mauricioppires at gmail dot com>
 
 **/
 
@@ -133,7 +133,6 @@ void decimalParaBinario(int decimal) {
 // -----------------------------------------------------------------------------
 // 04 - BINario para DECimal
 // -----------------------------------------------------------------------------
-// Funcao para converter um valor binario em decimal
 int binParaDecimal(char *binario) {
     int comprimento = strlen(binario);
     int decimal = 0;
@@ -154,13 +153,11 @@ int binParaDecimal(char *binario) {
 char binToHex(char *bin) {
     int decimal = 0;
     int potencia = 0;
-    // Converte o valor binario para decimal
     while (*bin != '\0') {
         decimal += (*bin - '0') * pow(2, 3 - potencia);
         bin++;
         potencia++;
         if (potencia == 4) {
-            // Converte o decimal para um digito hexadecimal correspondente
             if (decimal >= 0 && decimal <= 9) {
                 putchar(decimal + '0');
             } else {
@@ -177,25 +174,23 @@ char binToHex(char *bin) {
 // -----------------------------------------------------------------------------
 // 06 - BINario para OCTadecimal
 // -----------------------------------------------------------------------------
-// Funcao auxiliar para converter um digito binario em octal
 char binDigitToOctal(char *binDigit) {
-    int decimal = strtol(binDigit, NULL, 2); // Converte o digito binario para decimal
+    int decimal = strtol(binDigit, NULL, 2);
     char octalDigit[2];
-    sprintf(octalDigit, "%o", decimal); // Converte o decimal para octal
-    return octalDigit[0]; // Retorna apenas o primeiro digito octal
+    sprintf(octalDigit, "%o", decimal);
+    return octalDigit[0];
 }
 
-// Funcao para converter um valor binario em octal
 char* binToOctal(char *bin) {
     int len = strlen(bin);
-    int octalLen = (len + 2) / 3; // Calcula o tamanho necessário para a string octal
-    char *octal = (char*) malloc((octalLen + 1) * sizeof(char)); // Aloca memória para a string octal
-    octal[octalLen] = '\0'; // Adiciona o caractere nulo ao final da string
+    int octalLen = (len + 2) / 3;
+    char *octal = (char*) malloc((octalLen + 1) * sizeof(char));
+    octal[octalLen] = '\0';
     int i, j;
     for (i = len - 1, j = octalLen - 1; i >= 0; i -= 3, j--) {
         char binDigit[4];
-        strncpy(binDigit, bin + i - 2, 3); // Copia 3 dígitos binários de cada vez
-        octal[j] = binDigitToOctal(binDigit); // Converte os dígitos binários em um dígito octal
+        strncpy(binDigit, bin + i - 2, 3);
+        octal[j] = binDigitToOctal(binDigit);
     }
     return octal;
 }
@@ -207,27 +202,21 @@ char* binToOctal(char *bin) {
 int hexParaDecimal(char hex[]) {
     int decimal = 0;
     int tamanho = 0;
-    // Calcula o tamanho da string hexadecimal
     while (hex[tamanho] != '\0') {
         tamanho++;
     }
-    // Converte cada digito hexadecimal para decimal
     int potencia = 0;
     for (int i = tamanho - 1; i >= 0; i--) {
         int digito;
-        // Converte caracteres '0'-'9' para seus valores decimais correspondentes
         if (hex[i] >= '0' && hex[i] <= '9') {
             digito = hex[i] - '0';
         }
-        // Converte caracteres 'A'-'F' para seus valores decimais correspondentes
         else if (hex[i] >= 'A' && hex[i] <= 'F') {
             digito = hex[i] - 'A' + 10;
         }
-        // Converte caracteres 'a'-'f' para seus valores decimais correspondentes
         else if (hex[i] >= 'a' && hex[i] <= 'f') {
             digito = hex[i] - 'a' + 10;
         }
-        // Ignora outros caracteres invalidos
         else {
             continue;
         }
@@ -243,22 +232,17 @@ int hexParaDecimal(char hex[]) {
 // -----------------------------------------------------------------------------
 int hexToOctal(char hex[]) {
     int decimal = 0, octal = 0, potencia = 0;
-    // Convertendo o valor hexadecimal para decimal
     for (int i = 0; hex[i] != '\0'; i++) {
-        // Convertendo caracteres '0'-'9' para seus valores decimais correspondentes
         if (hex[i] >= '0' && hex[i] <= '9') {
             decimal = decimal * 16 + (hex[i] - '0');
         }
-        // Convertendo caracteres 'A'-'F' para seus valores decimais correspondentes
         else if (hex[i] >= 'A' && hex[i] <= 'F') {
             decimal = decimal * 16 + (hex[i] - 'A' + 10);
         }
-        // Convertendo caracteres 'a'-'f' para seus valores decimais correspondentes
         else if (hex[i] >= 'a' && hex[i] <= 'f') {
             decimal = decimal * 16 + (hex[i] - 'a' + 10);
         }
     }
-    // Convertendo o valor decimal para octal
     while (decimal != 0) {
         octal += (decimal % 8) * pow(10, potencia);
         decimal /= 8;
@@ -270,7 +254,6 @@ int hexToOctal(char hex[]) {
 // -----------------------------------------------------------------------------
 // 09 - HEXadecimal para BINario
 // -----------------------------------------------------------------------------
-// Funcao para converter um caractere hexadecimal em um valor decimal correspondente
 int hexToDec(char hex) {
     if (hex >= '0' && hex <= '9') {
         return hex - '0';
@@ -283,10 +266,8 @@ int hexToDec(char hex) {
     }
 }
 
-// Funcao para converter um valor hexadecimal em um valor binario correspondente
 void hexToBinary(char hex[], char binary[]) {
     int decimal = 0, index = 0;
-    // Convertendo o valor hexadecimal para decimal
     for (int i = strlen(hex) - 1; i >= 0; i--) {
         int dec = hexToDec(hex[i]);
         if (dec == -1) {
@@ -296,14 +277,12 @@ void hexToBinary(char hex[], char binary[]) {
         decimal += dec * (1 << (4 * index));
         index++;
     }
-    // Convertendo o valor decimal para binario
     int binaryIndex = 0;
     while (decimal > 0) {
         binary[binaryIndex++] = decimal % 2 + '0';
         decimal /= 2;
     }
     binary[binaryIndex] = '\0';
-    // Invertendo a string de binario resultante
     int len = strlen(binary);
     for (int i = 0; i < len / 2; i++) {
         char temp = binary[i];
@@ -331,16 +310,13 @@ int octalParaDecimal(int octal) {
 // -----------------------------------------------------------------------------
 // 11 - OCTadecimal para HEXadecimal
 // -----------------------------------------------------------------------------
-// Funcao para converter um valor octal em um valor hexadecimal correspondente
 void octToHex(char octal[], char hexadecimal[]) {
     int decimal = 0, index = 0;
-    // Convertendo o valor octal para decimal
     for (int i = strlen(octal) - 1; i >= 0; i--) {
         int oct = octal[i] - '0';
         decimal += oct * pow(8, index);
         index++;
     }
-    // Convertendo o valor decimal para hexadecimal
     int hexIndex = 0;
     while (decimal > 0) {
         int rem = decimal % 16;
@@ -352,7 +328,6 @@ void octToHex(char octal[], char hexadecimal[]) {
         decimal /= 16;
     }
     hexadecimal[hexIndex] = '\0';
-    // Invertendo a string hexadecimal resultante
     int len = strlen(hexadecimal);
     for (int i = 0; i < len / 2; i++) {
         char temp = hexadecimal[i];
@@ -365,28 +340,23 @@ void octToHex(char octal[], char hexadecimal[]) {
 // -----------------------------------------------------------------------------
 // 12 - OCTadecimal para BINario
 // -----------------------------------------------------------------------------
-// Funcao para converter um caractere octal em um valor decimal correspondente
 int octToDec(char oct) {
     return oct - '0';
 }
 
-// Funcao para converter um valor octal em um valor binario correspondente
 void octToBinary(char octal[], char binary[]) {
     int decimal = 0, index = 0;
-    // Convertendo o valor octal para decimal
     for (int i = strlen(octal) - 1; i >= 0; i--) {
         int oct = octToDec(octal[i]);
         decimal += oct * pow(8, index);
         index++;
     }
-    // Convertendo o valor decimal para binario
     int binaryIndex = 0;
     while (decimal > 0) {
         binary[binaryIndex++] = decimal % 2 + '0';
         decimal /= 2;
     }
     binary[binaryIndex] = '\0';
-    // Invertendo a string binaria resultante
     int len = strlen(binary);
     for (int i = 0; i < len / 2; i++) {
         char temp = binary[i];
@@ -401,10 +371,12 @@ void octToBinary(char octal[], char binary[]) {
 // -----------------------------------------------------------------------------
 int main() {
     int primeiraBase, segundaBase;
+
     int decimal, octal;
     char binario[100];
     char hexadecimal[100];
     char octal_str[100];
+
     printf("*** Conversor de Base ***\n");
     printf("por Mauricio Portela Pires\n\n");
     printf("Escolha a primeira base:\n");
