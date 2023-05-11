@@ -1,1 +1,3 @@
-Exemplos C
+# Exemplos em C
+
+por Mauricio P Pires
